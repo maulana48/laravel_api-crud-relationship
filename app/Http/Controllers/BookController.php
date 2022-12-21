@@ -15,14 +15,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
-
-        foreach($books as $book){
-            $category = Category::find($book->category_id);
-            $author = Author::find($book->author_id);
-            $book->category = $category->nama;
-            $book->author = $author->nama;
-        }
+        $books = Book::query()
+            ->join('categories', 'categories.id', '=', 'books.category_id')
+            ->join('authors', 'authors.id', '=', 'books.author_id')
+            ->select('books.*', 'categories.nama_category', 'authors.nama_author')
+            ->get();
         return response()->json([
             'status' => true,
             'message' => "Data semua buku didapatkan",
@@ -81,6 +78,30 @@ class BookController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Judul buku tidak valid',
+                'data' => null
+            ]);
+        }
+        
+        if(!$request->penerbit){
+            return response()->json([
+                'status' => false,
+                'message' => 'Penerbit buku tidak valid',
+                'data' => null
+            ]);
+        }
+        
+        if(!$request->kota_penerbitan){
+            return response()->json([
+                'status' => false,
+                'message' => 'Kota Penerbitan buku tidak valid',
+                'data' => null
+            ]);
+        }
+
+        if(!$request->ISBN){
+            return response()->json([
+                'status' => false,
+                'message' => 'ISBN buku tidak valid',
                 'data' => null
             ]);
         }
@@ -172,6 +193,30 @@ class BookController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Judul buku tidak valid',
+                'data' => null
+            ]);
+        }
+        
+        if(!$request->penerbit){
+            return response()->json([
+                'status' => false,
+                'message' => 'Penerbit buku tidak valid',
+                'data' => null
+            ]);
+        }
+        
+        if(!$request->kota_penerbitan){
+            return response()->json([
+                'status' => false,
+                'message' => 'Kota Penerbitan buku tidak valid',
+                'data' => null
+            ]);
+        }
+
+        if(!$request->ISBN){
+            return response()->json([
+                'status' => false,
+                'message' => 'ISBN buku tidak valid',
                 'data' => null
             ]);
         }

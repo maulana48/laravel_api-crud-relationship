@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->string('nama_author');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->text('password');
